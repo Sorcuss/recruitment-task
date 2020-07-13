@@ -1,26 +1,22 @@
 package pl.radoslawlapciak.controller;
 
-import com.sun.webkit.dom.KeyboardEventImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import pl.radoslawlapciak.control.PointListItem;
+import pl.radoslawlapciak.component.PointComponent;
+import pl.radoslawlapciak.component.PointListItem;
 import pl.radoslawlapciak.model.Color;
 import pl.radoslawlapciak.model.Point;
 import pl.radoslawlapciak.model.service.PointService;
 
-import javax.swing.event.DocumentEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +27,11 @@ public class MainViewController {
     private VBox pointsList;
 
     @FXML
-    private AnchorPane imagesPane;
-
-    @FXML
     private GridPane imageGrid;
 
     private PointService pointService;
 
-    private List<Circle> circles = new ArrayList<>();
+    private List<PointComponent> pointComponents = new ArrayList<>();
 
     @FXML
     private void handleLoadImageButtonAction(ActionEvent event) {
@@ -65,15 +58,33 @@ public class MainViewController {
             for (Node node : imageGrid.getChildren()) {
                 if (node instanceof AnchorPane) {
                     AnchorPane anchorPane = (AnchorPane) node;
-                    anchorPane.getChildren().removeAll(circles);
+                    anchorPane.getChildren().removeAll(pointComponents);
                     for(Point point : pointService.getAll()) {
-                        Circle circle = new Circle(point.getX(), point.getY(), 3);
-                        circle.setFill(javafx.scene.paint.Color.rgb(point.getColor().getRedColorValue(), point.getColor().getGreenColorValue(), point.getColor().getBlueColorValue()));
-                        circles.add(circle);
-                        anchorPane.getChildren().add(circle);
+                        PointComponent pointComponent = new PointComponent(point.getX(), point.getY(), 3, point.getId());
+                        pointComponent.setOnMouseDragged(event -> {
+                            pointComponents.stream().filter(pointComp -> pointComp.getPointId() == pointComponent.getPointId())
+                                    .forEach(pointComp -> {
+                                        pointComp.setCenterX(event.getX());
+                                        pointComp.setCenterY(event.getY());
+                                    });
+                            Point pointToChange = pointService.get(pointComponent.getPointId());
+                            pointToChange.setX(event.getX());
+                            pointToChange.setY(event.getY());
+                            pointService.update(point);
+                            updateListOfPoints();
+                        });
+                        pointComponents.add(pointComponent);
+                        anchorPane.getChildren().add(pointComponent);
                     }
                 }
 
+        }
+    }
+
+    private void updateListOfPoints(){
+        pointsList.getChildren().clear();
+        for(Point point : pointService.getAll()){
+            pointsList.getChildren().add(buildListItem(point));
         }
     }
 

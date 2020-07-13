@@ -1,10 +1,6 @@
-package pl.radoslawlapciak.control;
+package pl.radoslawlapciak.component;
 
 import javafx.beans.value.ChangeListener;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
