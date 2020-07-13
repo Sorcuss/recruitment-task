@@ -10,6 +10,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainViewController {
 
@@ -17,20 +19,31 @@ public class MainViewController {
     private GridPane imageGrid;
 
     @FXML
-    private void handleLoadImageButtonAction(ActionEvent event){
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image files", ".bmp", "*.png", "*.jpg", "*.gif"));
-        fileChooser.setTitle("select an image");
-        File file = fileChooser.showOpenDialog(new Stage());
-        if(file != null){
-            for(Node node : imageGrid.getChildren()){
-                if(node instanceof ImageView){
-                    ImageView imageView = (ImageView) node;
-                    Image image = new Image(file.toURI().toString());
-                    imageView.setImage(image);
-                }
+    private void handleLoadImageButtonAction(ActionEvent event) {
+        File file = showAndGetFileFromFileChooser("Select an image", "Image files",".bmp", "*.png", "*.jpg", "*.gif" );
+        if (file != null) {
+            Image image = new Image(file.toURI().toString());
+            for (ImageView imageView : getAllImageViewsFromGridPane()) {
+                imageView.setImage(image);
             }
         }
+    }
+
+    private File showAndGetFileFromFileChooser(String title, String description, String ... extensions){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(description, extensions));
+        fileChooser.setTitle(title);
+        return fileChooser.showOpenDialog(new Stage());
+    }
+
+    private List<ImageView> getAllImageViewsFromGridPane() {
+        List<ImageView> imageViews = new ArrayList<>();
+        for (Node node : imageGrid.getChildren()) {
+            if(node instanceof ImageView) {
+                imageViews.add((ImageView) node);
+            }
+        }
+        return imageViews;
     }
 
 }
