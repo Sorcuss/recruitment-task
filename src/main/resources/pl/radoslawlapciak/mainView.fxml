@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -23,11 +24,6 @@
         </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="574.0" prefWidth="900.0" style="-fx-background-color: black; -fx-border-color: silver;" VBox.vgrow="ALWAYS">
             <children>
-                <VBox alignment="CENTER" layoutX="9.0" layoutY="9.0" prefHeight="700.0" prefWidth="323.0" AnchorPane.leftAnchor="8.0" AnchorPane.topAnchor="8.0">
-                    <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                    </padding>
-                </VBox>
             <AnchorPane fx:id="imagesPane" layoutX="379.0" layoutY="26.0" prefHeight="700.0" prefWidth="700.0">
                <children>
                       <GridPane fx:id="imageGrid" gridLinesVisible="true" layoutX="-1.0" prefHeight="700.0" prefWidth="700.0" style="-fx-border-color: silver;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="0.0">
@@ -64,6 +60,15 @@
                       </GridPane>
                </children>
             </AnchorPane>
+            <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="700.0" prefWidth="358.0">
+               <content>
+                  <VBox fx:id="pointsList" prefHeight="694.0" prefWidth="340.0">
+                     <padding>
+                        <Insets bottom="5.0" left="3.0" right="3.0" top="5.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
             </children>
         </AnchorPane>
     </children>

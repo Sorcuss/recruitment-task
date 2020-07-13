@@ -3,16 +3,21 @@ package pl.radoslawlapciak.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import pl.radoslawlapciak.control.PointListItem;
+import pl.radoslawlapciak.model.Color;
+import pl.radoslawlapciak.model.Point;
+import pl.radoslawlapciak.model.service.PointService;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,10 +26,15 @@ import java.util.List;
 public class MainViewController {
 
     @FXML
+    private VBox pointsList;
+
+    @FXML
     private AnchorPane imagesPane;
 
     @FXML
     private GridPane imageGrid;
+
+    private PointService pointService;
 
     @FXML
     private void handleLoadImageButtonAction(ActionEvent event) {
@@ -40,12 +50,22 @@ public class MainViewController {
     @FXML
     private void handleImageClick(MouseEvent event) {
         event.consume();
-        for (Node node : imageGrid.getChildren()) {
-            if (node instanceof AnchorPane) {
-                Circle circle = new Circle(event.getX() + 5, event.getY() + 5, 5);
-                circle.setFill(Color.RED);
-                AnchorPane anchorPane = (AnchorPane) node;
-                anchorPane.getChildren().add(circle);
+        Color color = new Color((short) 255, (short) 0, (short) 0);
+        Point point = new Point(event.getX(), event.getY(), color);
+        pointService.add(point);
+        pointsList.getChildren().add(buildListItem(point));
+        showPoints();
+    }
+
+    private void showPoints() {
+        for (Point point : pointService.getAll()) {
+            for (Node node : imageGrid.getChildren()) {
+                if (node instanceof AnchorPane) {
+                    Circle circle = new Circle(point.getX(), point.getY(), 3);
+                    circle.setFill(javafx.scene.paint.Color.rgb(point.getColor().getRedColorValue(), point.getColor().getGreenColorValue(), point.getColor().getBlueColorValue()));
+                    AnchorPane anchorPane = (AnchorPane) node;
+                    anchorPane.getChildren().add(circle);
+                }
             }
         }
     }
@@ -69,6 +89,15 @@ public class MainViewController {
             }
         }
         return imageViews;
+    }
+
+    public void setPointService(PointService pointService) {
+        this.pointService = pointService;
+    }
+
+    private PointListItem buildListItem(Point point){
+        PointListItem gridPane = new PointListItem(point.getId(), point.getX(), point.getY());
+        return gridPane;
     }
 
 }
