@@ -1,5 +1,6 @@
 package pl.radoslawlapciak.controller;
 
+import com.sun.webkit.dom.KeyboardEventImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -19,6 +20,7 @@ import pl.radoslawlapciak.model.Color;
 import pl.radoslawlapciak.model.Point;
 import pl.radoslawlapciak.model.service.PointService;
 
+import javax.swing.event.DocumentEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,8 @@ public class MainViewController {
     private GridPane imageGrid;
 
     private PointService pointService;
+
+    private List<Circle> circles = new ArrayList<>();
 
     @FXML
     private void handleLoadImageButtonAction(ActionEvent event) {
@@ -58,15 +62,18 @@ public class MainViewController {
     }
 
     private void showPoints() {
-        for (Point point : pointService.getAll()) {
             for (Node node : imageGrid.getChildren()) {
                 if (node instanceof AnchorPane) {
-                    Circle circle = new Circle(point.getX(), point.getY(), 3);
-                    circle.setFill(javafx.scene.paint.Color.rgb(point.getColor().getRedColorValue(), point.getColor().getGreenColorValue(), point.getColor().getBlueColorValue()));
                     AnchorPane anchorPane = (AnchorPane) node;
-                    anchorPane.getChildren().add(circle);
+                    anchorPane.getChildren().removeAll(circles);
+                    for(Point point : pointService.getAll()) {
+                        Circle circle = new Circle(point.getX(), point.getY(), 3);
+                        circle.setFill(javafx.scene.paint.Color.rgb(point.getColor().getRedColorValue(), point.getColor().getGreenColorValue(), point.getColor().getBlueColorValue()));
+                        circles.add(circle);
+                        anchorPane.getChildren().add(circle);
+                    }
                 }
-            }
+
         }
     }
 
@@ -96,8 +103,22 @@ public class MainViewController {
     }
 
     private PointListItem buildListItem(Point point){
-        PointListItem gridPane = new PointListItem(point.getId(), point.getX(), point.getY());
-        return gridPane;
+        PointListItem pointListItem = new PointListItem(point.getId(), point.getX(), point.getY());
+        pointListItem.addXTextFieldChangeListener((observable, oldValue, newValue) -> {
+            Point pointToChange = pointService.get(pointListItem.getPointId());
+            pointToChange.setX(Double.parseDouble(newValue));
+            pointService.update(pointToChange);
+            showPoints();
+        });
+
+        pointListItem.addYTextFieldChangeListener((observable, oldValue, newValue) -> {
+            Point pointToChange = pointService.get(pointListItem.getPointId());
+            pointToChange.setY(Double.parseDouble(newValue));
+            pointService.update(pointToChange);
+            showPoints();
+        });
+
+        return pointListItem;
     }
 
 }
