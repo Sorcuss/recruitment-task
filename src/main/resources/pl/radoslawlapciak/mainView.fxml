@@ -17,7 +17,7 @@
           <MenuBar prefHeight="22.0" prefWidth="900.0">
               <Menu fx:id="mMain" text="Image">
             <items>
-               <MenuItem mnemonicParsing="false" text="Load" onAction="#handleLoadImageButtonAction"/>
+               <MenuItem mnemonicParsing="false" onAction="#handleLoadImageButtonAction" text="Load" />
             </items></Menu>
           </MenuBar>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="574.0" prefWidth="900.0" style="-fx-background-color: black; -fx-border-color: silver;" VBox.vgrow="ALWAYS">
@@ -37,10 +37,10 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <ImageView fitHeight="250.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fitHeight="250.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-                        <ImageView fitHeight="250.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                        <ImageView fitHeight="250.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ImageView fitHeight="250.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <ImageView fitHeight="250.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <ImageView fitHeight="250.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER" />
+                        <ImageView fitHeight="250.0" fitWidth="290.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                     </children>
                 </GridPane>
             </children>
