@@ -1,7 +1,5 @@
 package pl.radoslawlapciak.controller;
 
-import javafx.beans.InvalidationListener;
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -9,11 +7,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import pl.radoslawlapciak.component.PointListComponent;
 import pl.radoslawlapciak.component.PointPanelComponent;
-import pl.radoslawlapciak.controller.util.FileUtils;
+import pl.radoslawlapciak.util.FileUtils;
 import pl.radoslawlapciak.model.Color;
 import pl.radoslawlapciak.model.service.PointService;
 import pl.radoslawlapciak.modelfx.Point;
@@ -35,8 +31,13 @@ public class MainViewController {
 
     Points points = new Points();
 
+
     @FXML
-    private void initialize(){
+    private void initialize() {
+        double xBound = imageGrid.getPrefWidth() / 2;
+        double yBound = imageGrid.getPrefHeight() / 2;
+        pointsList.setXBoundValidationRule(xBound);
+        pointsList.setYBoundValidationRule(yBound);
         pointsList.pointsProperty().bindBidirectional(points.pointListProperty());
         for (Node node : imageGrid.getChildren()) {
             if (node instanceof PointPanelComponent) {

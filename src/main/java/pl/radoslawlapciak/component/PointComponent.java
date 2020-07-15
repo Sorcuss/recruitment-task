@@ -1,30 +1,30 @@
 package pl.radoslawlapciak.component;
 
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import pl.radoslawlapciak.modelfx.Point;
+import pl.radoslawlapciak.util.Constants;
+import pl.radoslawlapciak.util.Validator;
 
 
 public class PointComponent extends Circle {
 
 
     public PointComponent(ObjectProperty<Point> pointObjectProperty, double xBound, double yBound) {
-        super(pointObjectProperty.get().getX(),pointObjectProperty.get().getY(), 3);
+        super(pointObjectProperty.get().getX(),pointObjectProperty.get().getY(), Constants.RADIUS);
         setFill(Color.RED);
         centerXProperty().bindBidirectional(pointObjectProperty.get().xProperty());
         centerYProperty().bindBidirectional(pointObjectProperty.get().yProperty());
 
         setOnMouseDragged(event -> {
-            double radius = getRadius();
+
             double x = event.getX();
             double y = event.getY();
-            if(x <= xBound - radius && x >= 0 + radius) {
+            if(Validator.checkCoordinateBoundBounds(x, xBound)) {
                 setCenterX(event.getX());
             }
-            if(y <= yBound - radius && y >= 0 + radius) {
+            if(Validator.checkCoordinateBoundBounds(y, yBound)) {
                 setCenterY(event.getY());
             }
         });

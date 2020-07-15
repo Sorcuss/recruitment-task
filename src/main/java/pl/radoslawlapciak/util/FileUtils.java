@@ -1,4 +1,4 @@
-package pl.radoslawlapciak.controller.util;
+package pl.radoslawlapciak.util;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
