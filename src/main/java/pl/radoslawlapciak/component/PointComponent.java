@@ -14,11 +14,11 @@ public class PointComponent extends Circle {
     public PointComponent(ObjectProperty<Point> pointObjectProperty, double xBound, double yBound) {
         super(pointObjectProperty.get().getX(),pointObjectProperty.get().getY(), Constants.RADIUS);
         setFill(Color.RED);
+
         centerXProperty().bindBidirectional(pointObjectProperty.get().xProperty());
         centerYProperty().bindBidirectional(pointObjectProperty.get().yProperty());
 
         setOnMouseDragged(event -> {
-
             double x = event.getX();
             double y = event.getY();
             if(Validator.checkCoordinateBoundBounds(x, xBound)) {

@@ -10,8 +10,6 @@ import javafx.scene.layout.GridPane;
 import pl.radoslawlapciak.component.PointListComponent;
 import pl.radoslawlapciak.component.PointPanelComponent;
 import pl.radoslawlapciak.util.FileUtils;
-import pl.radoslawlapciak.model.Color;
-import pl.radoslawlapciak.model.service.PointService;
 import pl.radoslawlapciak.modelfx.Point;
 import pl.radoslawlapciak.modelfx.Points;
 
@@ -27,10 +25,7 @@ public class MainViewController {
     @FXML
     private GridPane imageGrid;
 
-    private PointService pointService;
-
     Points points = new Points();
-
 
     @FXML
     private void initialize() {
@@ -45,7 +40,6 @@ public class MainViewController {
                 pointPanelComponent.pointsProperty().bindBidirectional(points.pointListProperty());
             }
         }
-
     }
 
     @FXML
@@ -62,11 +56,7 @@ public class MainViewController {
     @FXML
     private void handleImageClick(MouseEvent event) {
         event.consume();
-        Color color = new Color((short) 255, (short) 0, (short) 0);
-        Point point = new Point();
-        point.setX(event.getX());
-        point.setY(event.getY());
-        point.setId("1");
+        Point point = new Point(event.getX(), event.getY());
         points.addPoint(point);
     }
 
@@ -83,10 +73,6 @@ public class MainViewController {
             }
         }
         return imageViews;
-    }
-
-    public void setPointService(PointService pointService) {
-        this.pointService = pointService;
     }
 
 }

@@ -17,23 +17,11 @@ public class Points {
         points.add(point);
     }
 
-    public ObservableList<Point> getPoints() {
-        return points;
-    }
-
-    public void setPoints(ObservableList<Point> points) {
-        this.points = points;
-    }
-
-    public ObservableList<Point> getPointList() {
-        return pointList.get();
-    }
 
     public ListProperty<Point> pointListProperty() {
         return pointList;
     }
 
-    public void setPointList(ObservableList<Point> pointList) {
-        this.pointList.set(pointList);
-    }
+
+
 }

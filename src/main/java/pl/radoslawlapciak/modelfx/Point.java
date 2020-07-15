@@ -3,11 +3,16 @@ package pl.radoslawlapciak.modelfx;
 import javafx.beans.property.*;
 
 public class Point {
+    private static int nextId = 0;
     private DoubleProperty x = new SimpleDoubleProperty(this, "xProperty");
     private DoubleProperty y = new SimpleDoubleProperty(this, "yProperty");
-    private StringProperty id = new SimpleStringProperty(this, "idProperty");
+    private IntegerProperty id = new SimpleIntegerProperty(this, "idProperty");
 
-
+    public Point(double x, double y){
+        this.x.set(x);
+        this.y.set(y);
+        this.id.set(nextId++);
+    }
 
     public double getX() {
         return x.get();
@@ -17,9 +22,6 @@ public class Point {
         return x;
     }
 
-    public void setX(double x) {
-        this.x.set(x);
-    }
 
     public double getY() {
         return y.get();
@@ -29,28 +31,8 @@ public class Point {
         return y;
     }
 
-    public void setY(double y) {
-        this.y.set(y);
-    }
-
-    public String getId() {
+    public int getId() {
         return id.get();
     }
 
-    public StringProperty idProperty() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id.set(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Point{" +
-                "x=" + x.get() +
-                ", y=" + y.get() +
-                ", id=" + id.get() +
-                '}';
-    }
 }
