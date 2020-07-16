@@ -60,5 +60,10 @@ public class ImageFxModel {
         marshaller.marshal(image, file);
     }
 
-
+    public ImageFxModel unmarshal(File file) throws JAXBException {
+        Converter<Image, ImageFxModel> converter = new ImageConverter();
+        JAXBContext context = JAXBContext.newInstance(Image.class);
+        Image image = (Image) context.createUnmarshaller().unmarshal(file);
+        return converter.convertFrom(image);
+    }
 }

@@ -1,5 +1,6 @@
 package pl.radoslawlapciak.controller;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -18,7 +19,9 @@ import pl.radoslawlapciak.util.FileUtils;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,24 +55,39 @@ public class MainViewController {
         File file = FileUtils.showAndGetFileFromFileChooser("Select an image", "Image files", "*.bmp", "*.png", "*.jpg", "*.gif");
         try {
             imageModel.setImageFromFile(file);
-            Image image = new Image(file.toURI().toString());
-            for (ImageView imageView : getAllImageViewsFromGridPane()) {
-                imageView.setImage(image);
-            }
+            InputStream inputStream = new FileInputStream(file);
+            loadImageToPanelsFromInputStream(inputStream);
         } catch (IOException e) {
             AlertUtils.showAlert("Error", "File does not found", Alert.AlertType.ERROR);
         }
     }
 
     @FXML
-    private void handleSaveImageButtonAction(ActionEvent event){
+    private void handleSaveProjectButtonAction(ActionEvent event){
         File file = FileUtils.showAndGetFileToSaveFromFileChooser("save to file", "XML files", "*.xml");
         if(file != null){
             try {
                 this.imageModel.marshal(file);
-                AlertUtils.showAlert("Success","File has been saved successfully", Alert.AlertType.INFORMATION);
+                AlertUtils.showAlert("Success","Project has been saved successfully", Alert.AlertType.INFORMATION);
             } catch (JAXBException e) {
-                AlertUtils.showAlert("Error","Error during save to file", Alert.AlertType.ERROR);
+                AlertUtils.showAlert("Error","Error during save project", Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    @FXML
+    private void handleLoadProjectButtonAction(ActionEvent event){
+        File file = FileUtils.showAndGetFileFromFileChooser("Load project", "XML files", "*.xml");
+        if(file != null){
+            try{
+                imageModel = imageModel.unmarshal(file);
+                InputStream inputStream = new ByteInputStream(imageModel.getContent(), imageModel.getContent().length);
+                loadImageToPanelsFromInputStream(inputStream);
+                initialize();
+                AlertUtils.showAlert("Success","Project has been loaded successfully", Alert.AlertType.INFORMATION);
+            }catch(JAXBException e){
+                AlertUtils.showAlert("Error","Error during load project", Alert.AlertType.ERROR);
+
             }
         }
     }
@@ -97,5 +115,11 @@ public class MainViewController {
         return imageViews;
     }
 
+    private void loadImageToPanelsFromInputStream(InputStream inputStream){
+        Image image = new Image(inputStream);
+        for (ImageView imageView : getAllImageViewsFromGridPane()) {
+            imageView.setImage(image);
+        }
+    }
 }
 
