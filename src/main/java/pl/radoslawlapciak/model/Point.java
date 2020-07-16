@@ -16,6 +16,10 @@ public class Point implements Serializable {
     @XmlAttribute
     private int id;
 
+    public Point(){
+
+    }
+
     public Point(double x, double y, int id) {
         this.x = x;
         this.y = y;

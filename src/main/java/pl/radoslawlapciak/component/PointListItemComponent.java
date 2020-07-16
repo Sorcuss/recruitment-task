@@ -1,6 +1,7 @@
 package pl.radoslawlapciak.component;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -52,14 +53,14 @@ public class PointListItemComponent extends GridPane {
     private void setUpVValidators(){
         xTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if(!Validator.validateTextField(newValue, xBound.get())){
-                AlertUtils.showErrorAlert("Error", "Wrong value of coordinate");
+                AlertUtils.showAlert("Error", "Wrong value of coordinate", Alert.AlertType.ERROR);
                 xTextField.textProperty().setValue(oldValue);
             }
         });
 
         yTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if(!Validator.validateTextField(newValue, yBound.get())){
-                AlertUtils.showErrorAlert("Error", "Wrong value of coordinate");
+                AlertUtils.showAlert("Error", "Wrong value of coordinate", Alert.AlertType.ERROR);
                 yTextField.textProperty().setValue(oldValue);
             }
         });

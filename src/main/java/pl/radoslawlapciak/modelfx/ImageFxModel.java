@@ -5,7 +5,13 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import pl.radoslawlapciak.converter.Converter;
+import pl.radoslawlapciak.converter.ImageConverter;
+import pl.radoslawlapciak.model.Image;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,8 +47,17 @@ public class ImageFxModel {
         return pointList;
     }
 
-    public void addPoint(PointFxModel point){
+    public void addPoint(PointFxModel point) {
         points.add(point);
+    }
+
+    public void marshal(File file) throws JAXBException {
+        Converter<Image, ImageFxModel> converter = new ImageConverter();
+        Image image = converter.convertTo(this);
+        JAXBContext context = JAXBContext.newInstance(Image.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        marshaller.marshal(image, file);
     }
 
 

@@ -3,6 +3,7 @@ package pl.radoslawlapciak.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -14,6 +15,7 @@ import pl.radoslawlapciak.modelfx.PointFxModel;
 import pl.radoslawlapciak.util.AlertUtils;
 import pl.radoslawlapciak.util.FileUtils;
 
+import javax.xml.bind.JAXBException;
 import java.io.File;
 
 import java.io.IOException;
@@ -47,7 +49,7 @@ public class MainViewController {
 
     @FXML
     private void handleLoadImageButtonAction(ActionEvent event){
-        File file = FileUtils.showAndGetFileFromFileChooser("Select an image", "Image files", ".bmp", "*.png", "*.jpg", "*.gif");
+        File file = FileUtils.showAndGetFileFromFileChooser("Select an image", "Image files", "*.bmp", "*.png", "*.jpg", "*.gif");
         try {
             imageModel.setImageFromFile(file);
             Image image = new Image(file.toURI().toString());
@@ -55,7 +57,20 @@ public class MainViewController {
                 imageView.setImage(image);
             }
         } catch (IOException e) {
-            AlertUtils.showErrorAlert("Error", "File does not found");
+            AlertUtils.showAlert("Error", "File does not found", Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void handleSaveImageButtonAction(ActionEvent event){
+        File file = FileUtils.showAndGetFileToSaveFromFileChooser("save to file", "XML files", "*.xml");
+        if(file != null){
+            try {
+                this.imageModel.marshal(file);
+                AlertUtils.showAlert("Success","File has been saved successfully", Alert.AlertType.INFORMATION);
+            } catch (JAXBException e) {
+                AlertUtils.showAlert("Error","Error during save to file", Alert.AlertType.ERROR);
+            }
         }
     }
 

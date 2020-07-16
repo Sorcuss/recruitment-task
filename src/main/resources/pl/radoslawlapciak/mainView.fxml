@@ -21,7 +21,7 @@
             <Menu fx:id="mMain" text="Image">
                 <items>
                     <MenuItem mnemonicParsing="false" onAction="#handleLoadImageButtonAction" text="Load" />
-                    <MenuItem mnemonicParsing="false" text="Save"/>
+                    <MenuItem mnemonicParsing="false" onAction="#handleSaveImageButtonAction" text="Save"/>
                 </items>
             </Menu>
         </MenuBar>
