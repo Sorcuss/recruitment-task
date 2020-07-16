@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import javafx.util.converter.NumberStringConverter;
-import pl.radoslawlapciak.modelfx.Point;
+import pl.radoslawlapciak.modelfx.PointFxModel;
 import pl.radoslawlapciak.util.AlertUtils;
 import pl.radoslawlapciak.util.Validator;
 
@@ -18,7 +18,7 @@ public class PointListItemComponent extends GridPane {
     DoubleProperty xBound;
     DoubleProperty yBound;
 
-    public PointListItemComponent(ObjectProperty<Point> pointObjectProperty, DoubleProperty xBound, DoubleProperty yBound) {
+    public PointListItemComponent(ObjectProperty<PointFxModel> pointObjectProperty, DoubleProperty xBound, DoubleProperty yBound) {
         super();
         this.xBound = xBound;
         this.yBound = yBound;

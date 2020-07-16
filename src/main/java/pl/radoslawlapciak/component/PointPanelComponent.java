@@ -7,21 +7,22 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
-import pl.radoslawlapciak.modelfx.Point;
+import pl.radoslawlapciak.modelfx.PointFxModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class PointPanelComponent extends AnchorPane {
-    private ListProperty<Point> points = new SimpleListProperty<>();
+    private ListProperty<PointFxModel> points = new SimpleListProperty<>();
 
-    private ChangeListener<ObservableList<Point>> onChangePointListAction = (observable, oldValue, newValue) -> {
+    private ChangeListener<ObservableList<PointFxModel>> onChangePointListAction = (observable, oldValue, newValue) -> {
         List<Node> nodesToRemove = this.getChildren().stream().filter(node -> node instanceof PointComponent).collect(Collectors.toList());
         this.getChildren().removeAll(nodesToRemove);
-        for(Point point : newValue){
+        for(PointFxModel point : newValue){
             this.getChildren().add(new PointComponent(new SimpleObjectProperty<>(point), getWidth(), getHeight()));
         }
     };
+
 
     public PointPanelComponent(){
         super();
@@ -29,7 +30,7 @@ public class PointPanelComponent extends AnchorPane {
     }
 
 
-    public ListProperty<Point> pointsProperty() {
+    public ListProperty<PointFxModel> pointsProperty() {
         return points;
     }
 

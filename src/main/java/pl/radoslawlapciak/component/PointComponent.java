@@ -3,7 +3,7 @@ package pl.radoslawlapciak.component;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import pl.radoslawlapciak.modelfx.Point;
+import pl.radoslawlapciak.modelfx.PointFxModel;
 import pl.radoslawlapciak.util.Constants;
 import pl.radoslawlapciak.util.Validator;
 
@@ -11,7 +11,7 @@ import pl.radoslawlapciak.util.Validator;
 public class PointComponent extends Circle {
 
 
-    public PointComponent(ObjectProperty<Point> pointObjectProperty, double xBound, double yBound) {
+    public PointComponent(ObjectProperty<PointFxModel> pointObjectProperty, double xBound, double yBound) {
         super(pointObjectProperty.get().getX(),pointObjectProperty.get().getY(), Constants.RADIUS);
         setFill(Color.RED);
 

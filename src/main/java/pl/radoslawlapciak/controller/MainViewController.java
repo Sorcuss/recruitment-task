@@ -9,11 +9,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import pl.radoslawlapciak.component.PointListComponent;
 import pl.radoslawlapciak.component.PointPanelComponent;
+import pl.radoslawlapciak.modelfx.ImageFxModel;
+import pl.radoslawlapciak.modelfx.PointFxModel;
+import pl.radoslawlapciak.util.AlertUtils;
 import pl.radoslawlapciak.util.FileUtils;
-import pl.radoslawlapciak.modelfx.Point;
-import pl.radoslawlapciak.modelfx.Points;
 
 import java.io.File;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +28,7 @@ public class MainViewController {
     @FXML
     private GridPane imageGrid;
 
-    Points points = new Points();
+    ImageFxModel imageModel = new ImageFxModel();
 
     @FXML
     private void initialize() {
@@ -33,31 +36,35 @@ public class MainViewController {
         double yBound = imageGrid.getPrefHeight() / 2;
         pointsList.setXBoundValidationRule(xBound);
         pointsList.setYBoundValidationRule(yBound);
-        pointsList.pointsProperty().bindBidirectional(points.pointListProperty());
+        pointsList.pointsProperty().bindBidirectional(imageModel.pointListProperty());
         for (Node node : imageGrid.getChildren()) {
             if (node instanceof PointPanelComponent) {
                 PointPanelComponent pointPanelComponent = (PointPanelComponent) node;
-                pointPanelComponent.pointsProperty().bindBidirectional(points.pointListProperty());
+                pointPanelComponent.pointsProperty().bindBidirectional(imageModel.pointListProperty());
             }
         }
     }
 
     @FXML
-    private void handleLoadImageButtonAction(ActionEvent event) {
+    private void handleLoadImageButtonAction(ActionEvent event){
         File file = FileUtils.showAndGetFileFromFileChooser("Select an image", "Image files", ".bmp", "*.png", "*.jpg", "*.gif");
-        if (file != null) {
+        try {
+            imageModel.setImageFromFile(file);
             Image image = new Image(file.toURI().toString());
             for (ImageView imageView : getAllImageViewsFromGridPane()) {
                 imageView.setImage(image);
             }
+        } catch (IOException e) {
+            AlertUtils.showErrorAlert("Error", "File does not found");
         }
     }
 
     @FXML
     private void handleImageClick(MouseEvent event) {
         event.consume();
-        Point point = new Point(event.getX(), event.getY());
-        points.addPoint(point);
+        PointFxModel point = new PointFxModel(event.getX(), event.getY());
+        imageModel.addPoint(point);
+        System.out.println(imageModel.getContent().length);
     }
 
 
