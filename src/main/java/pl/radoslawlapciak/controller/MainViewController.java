@@ -65,13 +65,17 @@ public class MainViewController {
     @FXML
     private void handleSaveProjectButtonAction(ActionEvent event){
         File file = FileUtils.showAndGetFileToSaveFromFileChooser("save to file", "XML files", "*.xml");
-        if(file != null){
-            try {
-                this.imageModel.marshal(file);
-                AlertUtils.showAlert("Success","Project has been saved successfully", Alert.AlertType.INFORMATION);
-            } catch (JAXBException e) {
-                AlertUtils.showAlert("Error","Error during save project", Alert.AlertType.ERROR);
+        if(imageModel.getContent() != null) {
+            if (file != null) {
+                try {
+                    this.imageModel.marshal(file);
+                    AlertUtils.showAlert("Success", "Project has been saved successfully", Alert.AlertType.INFORMATION);
+                } catch (JAXBException e) {
+                    AlertUtils.showAlert("Error", "Error saving project", Alert.AlertType.ERROR);
+                }
             }
+        }else{
+            AlertUtils.showAlert("Information", "Select an image before saving a project", Alert.AlertType.INFORMATION);
         }
     }
 
@@ -86,18 +90,21 @@ public class MainViewController {
                 initialize();
                 AlertUtils.showAlert("Success","Project has been loaded successfully", Alert.AlertType.INFORMATION);
             }catch(JAXBException e){
-                AlertUtils.showAlert("Error","Error during load project", Alert.AlertType.ERROR);
+                AlertUtils.showAlert("Error","Error loading project", Alert.AlertType.ERROR);
 
             }
         }
     }
 
     @FXML
-    private void handleImageClick(MouseEvent event) {
-        event.consume();
-        PointFxModel point = new PointFxModel(event.getX(), event.getY());
-        imageModel.addPoint(point);
-        System.out.println(imageModel.getContent().length);
+    private void handlePanelClick(MouseEvent event) {
+        if(imageModel.getContent() != null) {
+            event.consume();
+            PointFxModel point = new PointFxModel(event.getX(), event.getY());
+            imageModel.addPoint(point);
+        }else{
+            AlertUtils.showAlert("Information","Select an image before adding a point", Alert.AlertType.INFORMATION);
+        }
     }
 
 

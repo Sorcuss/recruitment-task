@@ -16,7 +16,11 @@ public class Point implements Serializable {
     @XmlAttribute
     private int id;
 
-    public Point(){
+    @XmlElement
+    private Color color;
+
+
+    public Point() {
 
     }
 
@@ -24,6 +28,19 @@ public class Point implements Serializable {
         this.x = x;
         this.y = y;
         this.id = id;
+    }
+
+    public Point(double x, double y, int id, Color color) {
+        this(x, y, id);
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public double getX() {

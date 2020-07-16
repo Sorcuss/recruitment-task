@@ -6,7 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
+import javafx.scene.paint.Color;
 import javafx.util.converter.NumberStringConverter;
+import pl.radoslawlapciak.modelfx.ColorFxModel;
 import pl.radoslawlapciak.modelfx.PointFxModel;
 import pl.radoslawlapciak.util.AlertUtils;
 import pl.radoslawlapciak.util.Validator;
@@ -25,16 +27,18 @@ public class PointListItemComponent extends GridPane {
         this.yBound = yBound;
         this.xTextField = new TextField(String.valueOf(pointObjectProperty.get().getX()));
         this.yTextField = new TextField(String.valueOf(pointObjectProperty.get().getY()));
+        ColorFxModel color = pointObjectProperty.get().getColor();
+        Label label = new Label("Point id: " + pointObjectProperty.get().getId());
+        label.setTextFill(Color.color(color.getR(),color.getG(), color.getB()));
 
         initStyles();
-        addRow(0, new Label("Point id: " + pointObjectProperty.get().getId()));
+        addRow(0, label);
         add(buildCoordinateGridPane("x=", xTextField), 0, 1);
         add(buildCoordinateGridPane("y=", yTextField), 1, 1);
 
-
+        setUpValidators();
         xTextField.textProperty().bindBidirectional(pointObjectProperty.get().xProperty(), new NumberStringConverter());
         yTextField.textProperty().bindBidirectional(pointObjectProperty.get().yProperty(), new NumberStringConverter());
-        setUpVValidators();
     }
 
     private void initStyles(){
@@ -50,7 +54,7 @@ public class PointListItemComponent extends GridPane {
         return gridPane;
     }
 
-    private void setUpVValidators(){
+    private void setUpValidators(){
         xTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if(!Validator.validateTextField(newValue, xBound.get())){
                 AlertUtils.showAlert("Error", "Wrong value of coordinate", Alert.AlertType.ERROR);
