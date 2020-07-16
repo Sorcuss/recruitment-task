@@ -26,7 +26,7 @@ public class ImageConverter implements Converter<Image, ImageFxModel> {
     @Override
     public ImageFxModel convertFrom(Image obj) {
         Converter<Point, PointFxModel> pointConverter = new PointConverter();
-        byte [] content = obj.getContent();
+        byte[] content = obj.getContent();
         List<PointFxModel> pointList = obj.getPoints()
                 .stream()
                 .map(pointConverter::convertFrom)

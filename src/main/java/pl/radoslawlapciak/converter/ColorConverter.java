@@ -11,7 +11,7 @@ public class ColorConverter implements Converter<Color, ColorFxModel> {
         double r = obj.getR();
         double g = obj.getG();
         double b = obj.getB();
-        return new Color(r,g,b);
+        return new Color(r, g, b);
     }
 
     @Override
@@ -19,6 +19,6 @@ public class ColorConverter implements Converter<Color, ColorFxModel> {
         DoubleProperty r = new SimpleDoubleProperty(obj.getR());
         DoubleProperty g = new SimpleDoubleProperty(obj.getG());
         DoubleProperty b = new SimpleDoubleProperty(obj.getB());
-        return new ColorFxModel(r,g,b);
+        return new ColorFxModel(r, g, b);
     }
 }

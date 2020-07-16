@@ -23,6 +23,7 @@ public class PointListComponent extends VBox {
 
     public PointListComponent() {
         super();
+        setSpacing(5);
         points.addListener(onChangePointListAction);
     }
 

@@ -10,7 +10,7 @@ public class PointFxModel {
     private ObjectProperty<ColorFxModel> color = new SimpleObjectProperty<>(this, "colorProperty");
 
 
-    public PointFxModel(double x, double y){
+    public PointFxModel(double x, double y) {
         this.x.set(x);
         this.y.set(y);
         this.id.set(nextId++);
@@ -24,7 +24,7 @@ public class PointFxModel {
     }
 
     public PointFxModel(DoubleProperty x, DoubleProperty y, IntegerProperty id, ObjectProperty<ColorFxModel> color) {
-        this(x,y,id);
+        this(x, y, id);
         this.color = color;
     }
 

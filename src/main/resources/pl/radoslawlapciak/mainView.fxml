@@ -15,68 +15,86 @@
 
 <?import pl.radoslawlapciak.component.PointListComponent?>
 <?import pl.radoslawlapciak.component.PointPanelComponent?>
-<VBox prefHeight="574.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.radoslawlapciak.controller.MainViewController">
+<VBox prefHeight="574.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pl.radoslawlapciak.controller.MainViewController">
     <children>
         <MenuBar prefHeight="22.0" prefWidth="900.0">
             <Menu fx:id="mMain" text="Image">
                 <items>
-                    <MenuItem mnemonicParsing="false" onAction="#handleLoadImageButtonAction" text="Load" />
+                    <MenuItem mnemonicParsing="false" onAction="#handleLoadImageButtonAction" text="Load"/>
                     <MenuItem mnemonicParsing="false" onAction="#handleSaveProjectButtonAction" text="Save project"/>
                     <MenuItem mnemonicParsing="false" onAction="#handleLoadProjectButtonAction" text="Load project"/>
                 </items>
             </Menu>
         </MenuBar>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="574.0" prefWidth="900.0" style="-fx-background-color: black; -fx-border-color: silver;" VBox.vgrow="ALWAYS">
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="574.0" prefWidth="900.0"
+                    style="-fx-background-color: black; -fx-border-color: silver;" VBox.vgrow="ALWAYS">
             <children>
-            <AnchorPane fx:id="imagesPane" layoutX="379.0" layoutY="26.0" prefHeight="700.0" prefWidth="700.0">
-               <children>
-                      <GridPane fx:id="imageGrid" gridLinesVisible="true" layoutX="-1.0" prefHeight="700.0" prefWidth="700.0" style="-fx-border-color: silver;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="0.0">
-                          <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                          <children>
-                        <PointPanelComponent prefHeight="350.0" prefWidth="350.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER" onMouseClicked="#handlePanelClick">
-                           <children>
-                                    <ImageView fitHeight="330.0" fitWidth="330.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </PointPanelComponent>
-                        <PointPanelComponent prefHeight="350.0" prefWidth="350.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" onMouseClicked="#handlePanelClick">
-                           <children>
-                                    <ImageView fitHeight="330.0" fitWidth="330.0" nodeOrientation="INHERIT"  pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </PointPanelComponent>
-                        <PointPanelComponent prefHeight="350.0" prefWidth="350.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onMouseClicked="#handlePanelClick">
-                           <children>
-                                    <ImageView fitHeight="330.0" fitWidth="330.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </PointPanelComponent>
-                        <PointPanelComponent prefHeight="350.0" prefWidth="350.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onMouseClicked="#handlePanelClick">
-                           <children>
-                                    <ImageView fitHeight="330.0" fitWidth="330.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </PointPanelComponent>
-                          </children>
-                      </GridPane>
-               </children>
-            </AnchorPane>
-            <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="700.0" prefWidth="358.0">
-               <content>
-                  <PointListComponent fx:id="pointsList" prefHeight="694.0" prefWidth="340.0">
-                     <padding>
-                        <Insets bottom="5.0" left="3.0" right="3.0" top="5.0" />
-                     </padding>
-                  </PointListComponent>
-               </content>
-            </ScrollPane>
+                <AnchorPane fx:id="imagesPane" layoutX="390.0" layoutY="26.0" prefHeight="700.0" prefWidth="700.0">
+                    <children>
+                        <GridPane fx:id="imageGrid" gridLinesVisible="true" layoutX="-1.0" prefHeight="700.0"
+                                  prefWidth="700.0" style="-fx-border-color: silver;" AnchorPane.bottomAnchor="10.0"
+                                  AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="0.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                            <children>
+                                <PointPanelComponent prefHeight="350.0" prefWidth="350.0" GridPane.halignment="CENTER"
+                                                     GridPane.valignment="CENTER" fx:id="pointPanelComponent">
+                                    <center>
+                                        <ImageView fitHeight="330.0" fitWidth="330.0" nodeOrientation="INHERIT"
+                                                   pickOnBounds="true" preserveRatio="true"
+                                                   onMouseClicked="#handleImageClick" fx:id="imageView"/>
+                                    </center>
+                                </PointPanelComponent>
+                                <PointPanelComponent prefHeight="350.0" prefWidth="350.0" GridPane.columnIndex="1"
+                                                     GridPane.halignment="CENTER" GridPane.valignment="CENTER"
+                                                     >
+                                    <center>
+                                        <ImageView fitHeight="330.0" fitWidth="330.0" nodeOrientation="INHERIT"
+                                                   pickOnBounds="true" preserveRatio="true"
+                                                   onMouseClicked="#handleImageClick"/>
+                                    </center>
+                                </PointPanelComponent>
+                                <PointPanelComponent prefHeight="350.0" prefWidth="350.0" GridPane.halignment="CENTER"
+                                                     GridPane.rowIndex="1" GridPane.valignment="CENTER"
+                                >
+                                    <center>
+                                        <ImageView fitHeight="330.0" fitWidth="330.0" nodeOrientation="INHERIT"
+                                                   pickOnBounds="true" preserveRatio="true"
+                                                   onMouseClicked="#handleImageClick"/>
+                                    </center>
+                                </PointPanelComponent>
+                                <PointPanelComponent prefHeight="350.0" prefWidth="350.0" GridPane.columnIndex="1"
+                                                     GridPane.halignment="CENTER" GridPane.rowIndex="1"
+                                                     GridPane.valignment="CENTER" onMouseClicked="#handleImageClick">
+                                    <center>
+                                        <ImageView fitHeight="330.0" fitWidth="330.0" nodeOrientation="INHERIT"
+                                                   pickOnBounds="true" preserveRatio="true"/>
+                                    </center>
+                                </PointPanelComponent>
+                            </children>
+                        </GridPane>
+                    </children>
+                </AnchorPane>
+                <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="700.0" prefWidth="370.0">
+                    <content>
+                        <PointListComponent fx:id="pointsList" prefHeight="694.0" prefWidth="355.0">
+                            <padding>
+                                <Insets bottom="5.0" left="3.0" right="3.0" top="5.0"/>
+                            </padding>
+                        </PointListComponent>
+                    </content>
+                </ScrollPane>
             </children>
         </AnchorPane>
     </children>
     <rotationAxis>
-        <Point3D />
+        <Point3D/>
     </rotationAxis>
 </VBox>

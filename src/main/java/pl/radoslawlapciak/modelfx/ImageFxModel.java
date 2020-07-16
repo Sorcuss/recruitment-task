@@ -51,6 +51,10 @@ public class ImageFxModel {
         points.add(point);
     }
 
+    public void clearPoints() {
+        pointList.clear();
+    }
+
     public void marshal(File file) throws JAXBException {
         Converter<Image, ImageFxModel> converter = new ImageConverter();
         Image image = converter.convertTo(this);

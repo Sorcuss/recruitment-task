@@ -33,14 +33,17 @@ public class MainViewController {
     @FXML
     private GridPane imageGrid;
 
-    ImageFxModel imageModel = new ImageFxModel();
+    @FXML
+    private ImageView imageView;
+
+    @FXML
+    private PointPanelComponent pointPanelComponent;
+
+    private ImageFxModel imageModel = new ImageFxModel();
 
     @FXML
     private void initialize() {
-        double xBound = imageGrid.getPrefWidth() / 2;
-        double yBound = imageGrid.getPrefHeight() / 2;
-        pointsList.setXBoundValidationRule(xBound);
-        pointsList.setYBoundValidationRule(yBound);
+        setBoundsToPointList();
         pointsList.pointsProperty().bindBidirectional(imageModel.pointListProperty());
         for (Node node : imageGrid.getChildren()) {
             if (node instanceof PointPanelComponent) {
@@ -51,21 +54,26 @@ public class MainViewController {
     }
 
     @FXML
-    private void handleLoadImageButtonAction(ActionEvent event){
+    private void handleLoadImageButtonAction(ActionEvent event) {
         File file = FileUtils.showAndGetFileFromFileChooser("Select an image", "Image files", "*.bmp", "*.png", "*.jpg", "*.gif");
-        try {
-            imageModel.setImageFromFile(file);
-            InputStream inputStream = new FileInputStream(file);
-            loadImageToPanelsFromInputStream(inputStream);
-        } catch (IOException e) {
-            AlertUtils.showAlert("Error", "File does not found", Alert.AlertType.ERROR);
+        if (file != null) {
+            try {
+                imageModel.setImageFromFile(file);
+                imageModel.clearPoints();
+                InputStream inputStream = new FileInputStream(file);
+                loadImageToPanelsFromInputStream(inputStream);
+                AlertUtils.showAlert("Information", "Image has been loaded successfully", Alert.AlertType.INFORMATION);
+                setBoundsToPointList();
+            } catch (IOException e) {
+                AlertUtils.showAlert("Error", "File does not found", Alert.AlertType.ERROR);
+            }
         }
     }
 
     @FXML
-    private void handleSaveProjectButtonAction(ActionEvent event){
+    private void handleSaveProjectButtonAction(ActionEvent event) {
         File file = FileUtils.showAndGetFileToSaveFromFileChooser("save to file", "XML files", "*.xml");
-        if(imageModel.getContent() != null) {
+        if (imageModel.getContent() != null) {
             if (file != null) {
                 try {
                     this.imageModel.marshal(file);
@@ -74,39 +82,38 @@ public class MainViewController {
                     AlertUtils.showAlert("Error", "Error saving project", Alert.AlertType.ERROR);
                 }
             }
-        }else{
+        } else {
             AlertUtils.showAlert("Information", "Select an image before saving a project", Alert.AlertType.INFORMATION);
         }
     }
 
     @FXML
-    private void handleLoadProjectButtonAction(ActionEvent event){
+    private void handleLoadProjectButtonAction(ActionEvent event) {
         File file = FileUtils.showAndGetFileFromFileChooser("Load project", "XML files", "*.xml");
-        if(file != null){
-            try{
+        if (file != null) {
+            try {
                 imageModel = imageModel.unmarshal(file);
                 InputStream inputStream = new ByteInputStream(imageModel.getContent(), imageModel.getContent().length);
                 loadImageToPanelsFromInputStream(inputStream);
+                AlertUtils.showAlert("Success", "Project has been loaded successfully", Alert.AlertType.INFORMATION);
                 initialize();
-                AlertUtils.showAlert("Success","Project has been loaded successfully", Alert.AlertType.INFORMATION);
-            }catch(JAXBException e){
-                AlertUtils.showAlert("Error","Error loading project", Alert.AlertType.ERROR);
+            } catch (JAXBException e) {
+                AlertUtils.showAlert("Error", "Error loading project", Alert.AlertType.ERROR);
 
             }
         }
     }
 
     @FXML
-    private void handlePanelClick(MouseEvent event) {
-        if(imageModel.getContent() != null) {
+    private void handleImageClick(MouseEvent event) {
+        if (imageModel.getContent() != null) {
             event.consume();
             PointFxModel point = new PointFxModel(event.getX(), event.getY());
             imageModel.addPoint(point);
-        }else{
-            AlertUtils.showAlert("Information","Select an image before adding a point", Alert.AlertType.INFORMATION);
+        } else {
+            AlertUtils.showAlert("Information", "Select an image before adding a point", Alert.AlertType.INFORMATION);
         }
     }
-
 
     private List<ImageView> getAllImageViewsFromGridPane() {
         List<ImageView> imageViews = new ArrayList<>();
@@ -122,11 +129,25 @@ public class MainViewController {
         return imageViews;
     }
 
-    private void loadImageToPanelsFromInputStream(InputStream inputStream){
+    private void loadImageToPanelsFromInputStream(InputStream inputStream) {
         Image image = new Image(inputStream);
         for (ImageView imageView : getAllImageViewsFromGridPane()) {
             imageView.setImage(image);
         }
     }
+
+    private void setBoundsToPointList() {
+        double[] coordinatesBounds = calculateCoordinatesBounds();
+        pointsList.setXBoundValidationRule(coordinatesBounds[0]);
+        pointsList.setYBoundValidationRule(coordinatesBounds[1]);
+    }
+
+    private double[] calculateCoordinatesBounds() {
+        double[] result = new double[2];
+        result[0] = pointPanelComponent.getWidth() - 2 * imageView.getLayoutX();
+        result[1] = pointPanelComponent.getHeight() - 2 * imageView.getLayoutY();
+        return result;
+    }
+
 }
 

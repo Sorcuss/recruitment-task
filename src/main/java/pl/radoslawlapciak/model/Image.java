@@ -18,7 +18,7 @@ public class Image implements Serializable {
     @XmlElement
     private List<Point> points = new ArrayList<>();
 
-    public Image(){
+    public Image() {
 
     }
 

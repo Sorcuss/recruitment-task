@@ -9,13 +9,13 @@ public class ColorFxModel {
     private DoubleProperty g = new SimpleDoubleProperty(this, "gColorValue");
     private DoubleProperty b = new SimpleDoubleProperty(this, "bColorValue");
 
-    public ColorFxModel(){
+    public ColorFxModel() {
         this.r.set(Math.random());
         this.g.set(Math.random());
         this.b.set(Math.random());
     }
 
-    public ColorFxModel(double r, double g, double b){
+    public ColorFxModel(double r, double g, double b) {
         this.r.set(r);
         this.g.set(g);
         this.b.set(b);
